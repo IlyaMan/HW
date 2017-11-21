@@ -13,8 +13,8 @@ int bitXor(int x, int y) {
 int thirdBits(void) {
         const int c = 73;
         const int c1 = 9;
-        int x = c + c << 9;
-        x = ((c | c << 9) | c << 18) | c1 << 27;
+        int x = ((73 << 23) | (73 << 14)) | (73 << 5) | (1 << 2);
+        return x;
 
 }
 
@@ -36,11 +36,17 @@ int logicalShift(int x, int n) {
 }
 
 int addOK(int x, int y) {
-        return ((x>>31)&1 ^ (y>>31)&1) | !(((x>>31)&1) & ((x + y)>>31)&1);
+        int signx = ((x>>31)&1);
+        int signy = ((y>>31)&1);
+        int sum = (((x + y)>>31)&1);
+        x = x ^ (2<<31);
+        y = y ^ (2<<31);
+        return !signy & !signx & !sum | (signx & signy & sum) | !(signx == signy);
 }
 
 int bang(int x){
-        return ((x>>31)&1 | (((~x)+1)&1)) ^ 1;
+        int ones = (((~x) + 1) | x) >> 31;
+        return (~ones + 1) ^ 1;
 }
 
 int conditional(int x, int y, int z) {
@@ -48,11 +54,12 @@ int conditional(int x, int y, int z) {
 }
 
 int isPower2(int x) {
-        return !((x + (~0)) & x) & (x>>31)&1 & !(!x);
+        return !((x + (~0)) & x) & !(x>>31) & !(!x);
+
 
 }
 
 int main(void) {
-        printf("%d", bang(-1));
+        printf("%d", addOK(0, 0));
         return 0;
 }
