@@ -37,18 +37,19 @@ void appendNode(struct Pntr *a, char *key, int value){
         Nnode->key = key;
         Nnode->value = value;
         Nnode->next = 0;
-        a[hash(key)].len += 1;
         if (a[hash(key)].first) {
                 struct Node *node = a[hash(key)].first;
                 while (1) {
                         if (node->key == key) {
                                 node->value = Nnode->value;
+                                break;
                         }
                         if (node->next) {
                                 node = node->next;
                         }
                         else{
                                 node->next = Nnode;
+                                a[hash(key)].len += 1;
                                 break;
                         }
                 }
@@ -102,12 +103,12 @@ void erase(struct Pntr *a){
         int i = 0;
         while(i < size) {
                 if (a[i].first) {
+                        struct Node *node = a[i].first;
+                        a[i].first = 0;
                         while (1)
                         {
-                                struct Node *node = a[i].first;
                                 struct Node *tmp = node;
                                 free (node);
-                                a[i].first = 0;
                                 node = tmp;
                                 if (node->next) {
                                         node = node->next;
@@ -122,7 +123,13 @@ void erase(struct Pntr *a){
 }
 
 void stats(struct Pntr *a){
-  int sum = 0; 
+        int sum = 0;
+        int i = 0;
+        while(i < size) {
+                if (a[i].len > 1) {sum += a[i].len;}
+                i++;
+        }
+        printf("Кол-во коллизий: %d\n", sum);
 }
 
 
@@ -130,9 +137,11 @@ int main(void) {
         size = 1000;
         struct Pntr *a = createTable(size);
         char str[256];
-        appendNode(a, "ZZ", 11);
+        appendNode(a, "ZZ", 18);
+        appendNode(a, "ZZ", 19);
         appendNode(a, "Zzzz", 121);
         showAll(a);
+        stats(a);
         erase(a);
         showAll(a);
         return 0;
