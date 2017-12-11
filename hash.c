@@ -90,12 +90,19 @@ int getValue(struct Pntr *a, char *key){
 }
 
 void showAll(struct Pntr *a){
+        int max;
+        char word[260];
         int i = 0;
         while(i < size) {
                 if (a[i].first) {
                         printf("%s : %d\n", a[i].first->key, a[i].first->value);
                         struct Node *node = a[i].first;
                         while(1) {
+                                if ((node->value > max) && (strlen(node->key) > 1)) {
+                                        max = node->value;
+                                        strcpy(word, node->key);
+                                }
+
                                 if (node->next) {
                                         node = node->next;
                                 }
@@ -107,7 +114,9 @@ void showAll(struct Pntr *a){
 
                 }
                 i++;
+
         }
+        printf("MAX: %s : %d\n", word, max);
 }
 
 void erase(struct Pntr *a){
