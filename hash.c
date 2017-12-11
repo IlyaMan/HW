@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,15 +10,15 @@ int hash(char *str){
         int h;
         i = 0;
         h = 0;
-        for (i = 0; i < strlen(str); i++) {
-                h = ( h + str[i] * i) % size;
+        for (i = 0; i <= strlen(str)-1; i++) {
+                h = ( h + str[i] * (i+1)) % size;
         }
         return h;
 }
 
 struct Node {
         int value;
-        char *key;
+        char key[256];
         struct Node *next;
 };
 
@@ -34,13 +35,13 @@ struct Pntr* createTable(int size){
 
 void appendNode(struct Pntr *a, char *key, int value){
         struct Node *Nnode = malloc(sizeof(struct Node));
-        Nnode->key = key;
+        strcpy(Nnode->key, key);
         Nnode->value = value;
         Nnode->next = 0;
         if (a[hash(key)].first) {
                 struct Node *node = a[hash(key)].first;
                 while (1) {
-                        if (node->key == key) {
+                        if (!strcmp(node->key, key)) {
                                 node->value = Nnode->value;
                                 break;
                         }
@@ -57,23 +58,34 @@ void appendNode(struct Pntr *a, char *key, int value){
 
         }
         else{
+                a[hash(key)].len += 1;
                 a[hash(key)].first = Nnode;
+
 
         }
 }
 
 int getValue(struct Pntr *a, char *key){
-        struct Node *node = a[hash(key)].first;
-        while (1) {
-                if (node->key == key) {
-                        return node->value;
-                        break;
-                }
-                else{
-                        if (node->next) {
-                                node = node->next;
+        if (a[hash(key)].first)
+        {
+                struct Node *node = a[hash(key)].first;
+                while (1) {
+                        if (!strcmp(node->key, key)) {
+                                return node->value;
+                                break;
+                        }
+                        else{
+                                if (node->next) {
+                                        node = node->next;
+                                }
+                                else{
+                                        break;
+                                }
                         }
                 }
+        }
+        else{
+                return 0;
         }
 }
 
@@ -81,10 +93,9 @@ void showAll(struct Pntr *a){
         int i = 0;
         while(i < size) {
                 if (a[i].first) {
+                        printf("%s : %d\n", a[i].first->key, a[i].first->value);
                         struct Node *node = a[i].first;
                         while(1) {
-                                printf("%s : ", node->key);
-                                printf("%d\n", node->value);
                                 if (node->next) {
                                         node = node->next;
                                 }
@@ -134,15 +145,32 @@ void stats(struct Pntr *a){
 
 
 int main(void) {
-        size = 1000;
+        size = 10000;
         struct Pntr *a = createTable(size);
-        char str[256];
-        appendNode(a, "ZZ", 18);
-        appendNode(a, "ZZ", 19);
-        appendNode(a, "Zzzz", 121);
+        FILE *fp;
+        fp = fopen("book1.txt", "r");
+        char *str = (char *)calloc(256, sizeof(char));
+        char b;
+        int i = 0;
+        while (1) {
+                b = fgetc(fp);
+                if ( feof(fp) ) break;
+                if (isalpha(b)) {
+                        str[i] = b;
+                        i++;
+                }
+                else {
+                        int p = getValue(a, str);
+                        appendNode(a, str, p + 1);
+                        for (int j = 1; j < 256; j++) {
+                                str[j] = 0;
+                        }
+                        i = 0;
+                }
+        }
+
         showAll(a);
         stats(a);
-        erase(a);
-        showAll(a);
+
         return 0;
 }
