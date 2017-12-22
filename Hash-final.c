@@ -29,39 +29,39 @@ struct Pntr {
 
 
 struct Pntr* createTable(int size){
-        struct Pntr *pntr = malloc(sizeof(struct Pntr) * size);
+        struct Pntr *pntr = (struct Pntr *) calloc(size, sizeof(struct Pntr));
         return pntr;
 }
 
 void appendNode(struct Pntr *a, char *key, int value){
-        struct Node *Nnode = malloc(sizeof(struct Node));
-        strcpy(Nnode->key, key);
-        Nnode->value = value;
-        Nnode->next = 0;
         if (a[hash(key)].first) {
                 struct Node *node = a[hash(key)].first;
                 while (1) {
                         if (!strcmp(node->key, key)) {
-                                node->value = Nnode->value;
+                                node->value = value;
                                 break;
                         }
                         if (node->next) {
                                 node = node->next;
                         }
                         else{
+                                struct Node *Nnode = calloc(1, sizeof(struct Node));
+                                strcpy(Nnode->key, key);
+                                Nnode->value = value;
+                                Nnode->next = 0;
                                 node->next = Nnode;
                                 a[hash(key)].len += 1;
                                 break;
                         }
                 }
-
-
         }
         else{
+                struct Node *Nnode = calloc(1, sizeof(struct Node));
+                strcpy(Nnode->key, key);
+                Nnode->value = value;
+                Nnode->next = 0;
                 a[hash(key)].len += 1;
                 a[hash(key)].first = Nnode;
-
-
         }
 }
 
@@ -124,15 +124,16 @@ void erase(struct Pntr *a){
                 if (a[i].first) {
                         struct Node *node = a[i].first;
                         a[i].first = 0;
+                        struct Node *tmp = node;
                         while (1)
                         {
-                                struct Node *tmp = node;
-                                free (node);
-                                node = tmp;
                                 if (node->next) {
+                                        tmp = node;
                                         node = node->next;
+                                        free(tmp);
                                 }
                                 else {
+                                        free(node);
                                         break;
                                 }
                         }
@@ -145,7 +146,7 @@ void stats(struct Pntr *a){
         int sum = 0;
         int i = 0;
         while(i < size) {
-                if (a[i].len > 1) {sum += a[i].len;}
+                if (a[i].len > 1) {sum += a[i].len; }
                 i++;
         }
         printf("Кол-во коллизий: %d\n", sum);
@@ -179,6 +180,9 @@ int main(void) {
 
         showAll(a);
         stats(a);
+        erase(a);
+        free(a);
+        free(str);
 
         return 0;
 }
