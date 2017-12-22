@@ -9,44 +9,38 @@ int strlen(char *s) {
         return i;
 }
 
-void strcopy(char *dst, char *src) {
-        dst = (char *) calloc(strlen(src), sizeof(char));
+void strcpy(char *dst, char *src) {
         int i = 0;
-        while (src[i]) {
+        while ((src[i]) && (dst[i])) {
                 dst[i] = src[i];
                 i++;
         }
-        printf(dst);
+        printf("\n%s", dst);
 }
 
 void strcat(char *dst, char *src) {
         int L = strlen(dst);
-        int l = strlen(src);
-        char * middle = (char*) malloc(sizeof(char) * (l + L));
         int i = 0;
-        while (i <= L) {
-                middle[i] = dst[i];
-                i++;
+        while(src[i]){
+          dst[L + i] = src[i];
+          i++;
         }
-        i = 0;
-        while (i <= l) {
-                middle[L + i] = src[i];
-                i++;
-        }
-        dst = middle;
+        dst[L + i] = 0;
         printf(dst);
 }
 
+
+
 int strcmp(char* s1, char* s2){
         int i = 0;
-        while(s1[i] or s2[i]) {
+        while((s1[i]) || (s2[i])) {
                 if (s1[i] == s2[i]) {
-                        if (s1[i+1] or s2[i+1]) {
+                        if ((s1[i+1]) || (s2[i+1])) {
                                 i++;
                                 continue;
                         }
                         else{
-                          return 0;
+                                return 0;
                         }
                 }
                 if (s1[i] > s2[i]) {
