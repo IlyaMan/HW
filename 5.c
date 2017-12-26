@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int main () {
-        char The_String[256];
+        char *The_String = (char *) calloc(256, sizeof(char));
         FILE *f;
         int c;
         int i = 0;
