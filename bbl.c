@@ -19,7 +19,7 @@ void bbl(unsigned int *arr, int n) {
 
 
 unsigned int main() {
-        unsigned int n = 100;
+        unsigned int n = 100000;
         unsigned int arr[n];
         for (unsigned int i = 0; i < n; i++) {
                 arr[i] = n - i;

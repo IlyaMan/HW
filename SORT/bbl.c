@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <limits.h>
 
-void bbl(unsigned int *arr, int n) {
-        unsigned int i;
-        unsigned int j;
-        unsigned int tmp;
+void bbl(unsigned long int *arr, long int n) {
+        unsigned long int i;
+        unsigned long int j;
+        unsigned long int tmp;
 
         for (i = 0; i < n; i++) {
                 for (j = 1; j < n; j++) {
@@ -18,17 +18,17 @@ void bbl(unsigned int *arr, int n) {
 }
 
 
-unsigned int main() {
-        unsigned int n = 100;
-        unsigned int arr[n];
-        for (unsigned int i = 0; i < n; i++) {
+unsigned long int main() {
+        unsigned long long int n = 1000000;
+        unsigned long int arr[n];
+        for (unsigned long int i = 0; i < n; i++) {
                 arr[i] = n - i;
         }
 
         bbl(arr, n);
 
-        for (unsigned int i = 0; i < n; i++) {
-                printf("%d ", arr[i]);
+        for (unsigned long int i = 0; i < n; i++) {
+                printf("%llu ", arr[i]);
         }
 
         return 0;
