@@ -10,7 +10,7 @@ int hash(char *str){
         int h;
         i = 0;
         h = 0;
-        for (i = 0; i <= strlen(str)-1; i++) {
+        for (i = 0; i <= strlen(str) - 1; i++) {
                 h = ( h + str[i] * (i+1)) % size;
         }
         return h;
@@ -30,11 +30,19 @@ struct Pntr {
 
 struct Pntr* createTable(int size){
         struct Pntr *pntr = malloc(sizeof(struct Pntr) * size);
+        if (!pntr) {
+                printf("No memory!");
+                exit(0);
+        }
         return pntr;
 }
 
 void appendNode(struct Pntr *a, char *key, int value){
         struct Node *Nnode = malloc(sizeof(struct Node));
+        if (!Nnode) {
+                printf("No memory!");
+                exit(0);
+        }
         strcpy(Nnode->key, key);
         Nnode->value = value;
         Nnode->next = 0;
@@ -73,7 +81,7 @@ int getValue(struct Pntr *a, char *key){
                         if (!strcmp(node->key, key)) {
                                 return node->value;
                         }
-                        else{
+                        else {
                                 if (node->next) {
                                         node = node->next;
                                 }
@@ -83,7 +91,7 @@ int getValue(struct Pntr *a, char *key){
                         }
                 }
         }
-        else{
+        else {
                 return 0;
         }
 }
@@ -92,7 +100,7 @@ void showAll(struct Pntr *a){
         int max = 0;
         char word[260];
         int i = 0;
-        while(i < size) {
+        while (i < size) {
                 if (a[i].first) {
                         printf("%s : %d\n", a[i].first->key, a[i].first->value);
                         struct Node *node = a[i].first;
@@ -105,7 +113,7 @@ void showAll(struct Pntr *a){
                                 if (node->next) {
                                         node = node->next;
                                 }
-                                else{
+                                else {
                                         break;
                                 }
 
@@ -144,7 +152,7 @@ void erase(struct Pntr *a){
 void stats(struct Pntr *a){
         int sum = 0;
         int i = 0;
-        while(i < size) {
+        while (i < size) {
                 if (a[i].len > 1) {sum += a[i].len;}
                 i++;
         }
@@ -158,6 +166,10 @@ int main(void) {
         FILE *fp;
         fp = fopen("book1.txt", "r");
         char *str = (char *)calloc(256, sizeof(char));
+        if (!str) {
+                printf("No memory!");
+                exit(0);
+        }
         char b;
         int i = 0;
         while (1) {
