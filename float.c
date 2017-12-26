@@ -42,6 +42,22 @@ float fractIt(int c){
 }
 
 void Krasivo(Decoded c){
+  if ((c.fract == 0) && (c.exp == 0)){
+    printf("0");
+    return;
+  }
+  if ((c.fract != 0) && (c.exp == 255)){
+    printf("Nan");
+    return;
+  }
+  if ((c.fract == 0) && (c.exp == 255) && (c.sign == 0)){
+    printf("+Inf");
+    return;
+  }
+  if ((c.fract == 0) && (c.exp == 255) && (c.sign == 1)){
+    printf("+Inf");
+    return;
+  }
         printf("(-1)^%d x %f x 2^(%d)\n", c.sign, c.fract, c.exp);
 }
 
@@ -88,18 +104,6 @@ int main(void){
         printf("Give me one more\n");
         scanf("%f", &b);
 
-        if ((a == 0) && (b == 0)) {
-                printf("Nan");
-                return 0;
-        }
-        if ((b == 0) && (a < 0)) {
-                printf("-Inf");
-                return 0;
-        }
-        if ((b == 0) && (a > 0)) {
-                printf("+Inf");
-                return 0;
-        }
         int tmp;
 
         for (int i = 0; i < 3; i++) {
