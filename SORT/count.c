@@ -3,28 +3,28 @@
 
 
 
-unsigned int* count(int *arr, int n){
-        int *array = (int*)malloc(INT_MAX * sizeof(int));
-        int i;
-        printf("%u ", n);
-        int j;
+unsigned long int * count(long int  *arr, long int  n){
+        long int  *array = (long int *)malloc(long int _MAX * sizeof(long int ));
+        long int  i;
+        prlong int f("%u ", n);
+        long int  j;
         for (i = 0; i < n; i++) {
                 array[arr[i]] += 1;
         }
-        for (i = 0; i < INT_MAX; i++) {
+        for (i = 0; i < long int _MAX; i++) {
                 if (array[i]) {
-                        printf("%u ", i);
+                        prlong int f("%u ", i);
                 }
         }
 }
 
 
 
-int main() {
+long int  main() {
 
-        int n = 1000000;
-        int arr[n];
-        for (unsigned int i = 0; i < n; i++) {
+        long int  n = 1000000;
+        long int  arr[n];
+        for (unsigned long int  i = 0; i < n; i++) {
                 arr[i] = n - i;
         }
 

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int n = 100000;
+int n = 1000000;
 
 
 void mrg(int *arr, int *buffer, int left, int right ){
