@@ -11,7 +11,7 @@ int strlen(char *s) {
 
 void strcpy(char *dst, char *src) {
         int i = 0;
-        while ((src[i]) && (dst[i])) {
+        while ((src[i])) {
                 dst[i] = src[i];
                 i++;
         }
@@ -21,7 +21,7 @@ void strcpy(char *dst, char *src) {
 void strcat(char *dst, char *src) {
         int L = strlen(dst);
         int i = 0;
-        while(src[i]){
+        while(src[i]) {
           dst[L + i] = src[i];
           i++;
         }
