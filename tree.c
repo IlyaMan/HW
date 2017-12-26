@@ -80,22 +80,15 @@ int findRoot(struct node arr[], int l, int r){
 
 }
 
-// int tree(struct node arr[], int l, int r){
-//         int ro = findRoot(arr, l, r);
-//         if (ro != l) {
-//                 arr[r].l = tree(arr, l, ro - 1);
-//         }
-//         if (ro != r) {
-//                 arr[r].r = tree(arr, ro + 1, r);
-//         }
-//         // printf("TREE log val: %d, l: %d, r: %d\n", arr[ro].val, arr[ro].l, arr[ro].r);
-//         return ro;
-// }
 
 
 void graviz(struct node arr[], int n){
         FILE *fp;
         fp = fopen("fo.txt", "w");
+        if (!fp){
+          printf("red alert");
+          exit(111);
+        }
         fprintf(fp, "%s", "digraph {\n");
         for (int i = 0; i < n; i++) {
                 if ((arr[i].l < n)) {
@@ -113,6 +106,10 @@ void graviz(struct node arr[], int n){
 int main(void){
         FILE *fp;
         fp = fopen("f.txt", "r");
+        if (!fp){
+          printf("red alert");
+          exit(111);
+        }
         int n;
         fscanf(fp, "%d", &n);
         struct node arr[n];
@@ -123,10 +120,6 @@ int main(void){
         }
         structNaiveSort(arr, n);
         findix(arr, n);
-        // for (int i = 0; i < n; i++) {
-        //         printf("val: %d, freq: %d, x: %d\n", arr[i].val, arr[i].freq, arr[i].x);
-        // }
-        // tree(arr, 0, n - 1);
         printf("%d\n", arr[findRoot(arr, 0, n - 1)].val);
         graviz(arr, n);
         return 0;
