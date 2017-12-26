@@ -39,7 +39,7 @@ int strcmp(char* s1, char* s2){
                                 i++;
                                 continue;
                         }
-                        else{
+                        else {
                                 return 0;
                         }
                 }
