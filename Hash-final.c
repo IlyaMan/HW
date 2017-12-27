@@ -186,7 +186,7 @@ void stats(struct Pntr *a){
 
 int main(void) {
         size = 500;
-        int strsz = 256;
+        const int strsz = 256;
         struct Pntr *a = createTable(size);
         FILE *fp;
         fp = fopen("book1.txt", "r");
