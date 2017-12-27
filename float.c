@@ -98,7 +98,7 @@ int main(void){
         Way B = {.text = "union со структурой с bit fields", .f = unionInt};
         Way C = {.text = "взятие адреса и разыменование указателя, приведенного к другому типу и битовые операции", .f = *unionInt};
 
-        Way ways[3] = {A, B, C};
+        Way ways[] = {A, B, C};
         printf("Give me a float\n");
         scanf("%f", &a);
         printf("Give me one more\n");
@@ -106,7 +106,7 @@ int main(void){
 
         int tmp;
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < sizeof(ways)/sizeof(Way); i++) {
                 printf("%s\n нажмите %d\n", ways[i].text, i);
         }
         scanf("%d", &tmp);
