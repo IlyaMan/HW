@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-int n = 1000000;
+int n = 5;
 
 
 void mrg(int *arr, int *buffer, int left, int right ){
@@ -70,11 +71,16 @@ int main(void) {
         for (int i = 0; i < n; i++) {
                 arr[i] = n - i;
         }
-
+        clock_t start;
+        clock_t stop;
+        double tim;
+        start = clock();
         mrg(arr, buffer, 0, n - 1);
-
-        for (int i = 0; i < n; i++) {
-                printf("%u ", arr[i]);
-        }
+        stop = clock();
+        // for (int i = 0; i < n; i++) {
+        //         printf("%u ", arr[i]);
+        // }
+        tim = ((double)(stop - start)) / CLOCKS_PER_SEC;
+        printf("%f", tim);
         return 0;
 }
