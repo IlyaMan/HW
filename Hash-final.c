@@ -155,22 +155,42 @@ void erase(struct Pntr *a){
 }
 
 void stats(struct Pntr *a){
+        int aver = 0;
+        int keys = 0;
+        int max = 0;
+        int min = 0;
         int sum = 0;
         int i = 0;
         while (i < size) {
-                if (a[i].len > 1) {sum += a[i].len;}
+                if (a[i].len >= 1) {
+                  keys += 1;
+                  aver += a[i].len;
+                }
+                if (a[i].len > 1) {
+                        sum += a[i].len;
+                        if (a[i].len > max) {
+                                max = a[i].len;
+                        }
+                }
                 i++;
+
         }
+        printf("SIZE: %d\n", size);
         printf("Кол-во коллизий: %d\n", sum);
+        printf("Максимальная длина цепочки: %d\n", max);
+        printf("Кол-во ключей: %d\n", keys);
+        printf("Средняя длина цепочки: %d\n", aver/keys);
+
 }
 
 
 int main(void) {
-        size = 10000;
+        size = 500;
+        int strsz = 256;
         struct Pntr *a = createTable(size);
         FILE *fp;
         fp = fopen("book1.txt", "r");
-        char *str = (char *)calloc(256, sizeof(char));
+        char *str = (char *)calloc(strsz, sizeof(char));
         if (!str) {
                 printf("No memory!");
                 exit(0);
@@ -194,7 +214,7 @@ int main(void) {
                 }
         }
 
-        showAll(a);
+        // showAll(a);
         stats(a);
         erase(a);
         free(a);
